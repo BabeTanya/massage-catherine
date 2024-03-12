@@ -1,0 +1,75 @@
+@font-face {
+  font-family: 'icomoon';
+  src:  url('fonts/icomoon.eot?aqqz8l');
+  src:  url('fonts/icomoon.eot?aqqz8l#iefix') format('embedded-opentype'),
+    url('fonts/icomoon.ttf?aqqz8l') format('truetype'),
+    url('fonts/icomoon.woff?aqqz8l') format('woff'),
+    url('fonts/icomoon.svg?aqqz8l#icomoon') format('svg');
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'icomoon' !important;
+  speak: never;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-skillset:before {
+  content: "\e90f";
+}
+.icon-skill:before {
+  content: "\e90e";
+}
+.icon-userminus:before {
+  content: "\e909";
+}
+.icon-userplus:before {
+  content: "\e90a";
+}
+.icon-checkclip:before {
+  content: "\e90b";
+}
+.icon-award:before {
+  content: "\e90c";
+}
+.icon-exploresearch:before {
+  content: "\e90d";
+}
+.icon-info:before {
+  content: "\e908";
+}
+.icon-certificate:before {
+  content: "\e907";
+}
+.icon-creditaccount:before {
+  content: "\e906";
+}
+.icon-gear:before {
+  content: "\e905";
+}
+.icon-lang:before {
+  content: "\e904";
+}
+.icon-credit:before {
+  content: "\e900";
+}
+.icon-logout:before {
+  content: "\e901";
+}
+.icon-profile:before {
+  content: "\e902";
+}
+.icon-user:before {
+  content: "\e903";
+}
