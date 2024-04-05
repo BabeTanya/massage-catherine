@@ -13,10 +13,14 @@ exports.getAppointments=async(req,res,next)=>{
             select: 'name province tel'
         });
     }else{ //If you are an admin, you can see all!
-        query=Appointment.find().populate({
-            path: 'hospital',
-            select: 'name province tel'
-        });
+        if (req.params.hospitalId) {
+            query = Appointment.find({ hospital: req.params.hospitalId })
+        } else {
+            query=Appointment.find().populate({
+                path: 'hospital',
+                select: 'name province tel'
+            });
+        }
     }
     try{
         const appointments = await query;
@@ -99,7 +103,7 @@ exports.updateAppointment=async(req,res,next)=>{
         }
 
         //Make sure user is the appointment owner
-        if(appointment.user.toString() !== req.user.role !== 'admin'){
+        if(appointment.user.toString() !== req.user.id && req.user.role !== 'admin'){
             return res.status(401).json({success: false, message:`User ${req.user.id} is not authorized to update this appointment`})
         }
         
@@ -127,6 +131,11 @@ exports.deleteAppointment=async(req,res,next)=>{
 
         if(!appointment){
             return res.status(404).json({success: false, message: `No appt with id ${req.params.id}`});
+        }
+
+        // Make sure user is the appointment owner
+        if(appointment.user.toString()!== req.user.id && req.user.role !== 'admin') {
+            return res.status(401).json({success: false, message: `User ${req.user.id} is not authorized to delete this appointment`})
         }
 
         await appointment.deleteOne();
