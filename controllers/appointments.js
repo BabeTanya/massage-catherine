@@ -12,20 +12,35 @@ exports.getAppointments = async (req, res, next) => {
             query = Appointment.find({ user: req.user.id, massageShop: req.params.massageShopId }).populate({
                 path: 'massageShop',
                 select: 'name address phoneNumber'
+            }).populate({
+                path: 'massageType',
+                select: 'name price'
             });
         } else {
             query = Appointment.find({ user: req.user.id }).populate({
                 path: 'massageShop',
                 select: 'name address phoneNumber'
+            }).populate({
+                path: 'massageType',
+                select: 'name price'
             });
         }
     } else { //If you are an admin, you can see all!
         if (req.params.massageShopId) {
-            query = Appointment.find({ massageShop: req.params.massageShopId })
+            query = Appointment.find({ massageShop: req.params.massageShopId }).populate({
+                path: 'massageShop',
+                select: 'name address phoneNumber'
+            }).populate({
+                path: 'massageType',
+                select: 'name price'
+            });
         } else {
             query = Appointment.find().populate({
                 path: 'massageShop',
                 select: 'name address phoneNumber'
+            }).populate({
+                path: 'massageType',
+                select: 'name price'
             });
         }
     }
@@ -54,7 +69,10 @@ exports.getAppointment = async (req, res, next) => {
         const appointment = await Appointment.findById(req.params.id).populate({
             path: 'massageShop',
             select: 'name description tel'
-        });
+        }).populate({
+            path: 'massageType',
+            select: 'name price'
+        });;
 
         if (!appointment) {
             return res.status(404).json({ success: false, massage: `No appointment with the id of ${req.params.id}` });
@@ -86,6 +104,7 @@ exports.addAppointment = async (req, res, next) => {
         req.body.user = req.user.id;
         //Check for exsted appointment
         const existedAppointments = await Appointment.find({ user: req.user.id });
+        console.log('existedAppointments', existedAppointments)
         //If the user is not an admin, they can only create 3 appointment.
         if (existedAppointments.length >= 3 && req.user.role !== 'admin') {
             return res.status(400).json({ success: false, massage: `The user with ID ${req.user.id} has already made 3 appointments` });
