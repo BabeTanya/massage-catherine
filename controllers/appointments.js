@@ -56,7 +56,7 @@ exports.getAppointments = async (req, res, next) => {
         console.log(error.stack);
         return res.status(500).json({
             success: false,
-            massage: "Cannot find Appointment"
+            message: "Cannot find Appointment"
         });
     }
 };
@@ -75,7 +75,7 @@ exports.getAppointment = async (req, res, next) => {
         });;
 
         if (!appointment) {
-            return res.status(404).json({ success: false, massage: `No appointment with the id of ${req.params.id}` });
+            return res.status(404).json({ success: false, message: `No appointment with the id of ${req.params.id}` });
         }
 
         res.status(200).json({
@@ -84,7 +84,7 @@ exports.getAppointment = async (req, res, next) => {
         });
     } catch (error) {
         console.log(error.stack);
-        return res.status(500).json({ success: false, massage: "Cannot find Appointment" });
+        return res.status(500).json({ success: false, message: "Cannot find Appointment" });
     }
 }
 
@@ -97,7 +97,7 @@ exports.addAppointment = async (req, res, next) => {
         const massageShop = await MassageShop.findById(req.params.massageShopId);
 
         if (!massageShop) {
-            return res.status(404).json({ success: false, massage: `No massage shop with the id of ${req.params.massageShopId}` });
+            return res.status(404).json({ success: false, message: `No massage shop with the id of ${req.params.massageShopId}` });
         }
 
         //add user Id to req.body
@@ -107,14 +107,14 @@ exports.addAppointment = async (req, res, next) => {
         console.log('existedAppointments', existedAppointments)
         //If the user is not an admin, they can only create 3 appointment.
         if (existedAppointments.length >= 3 && req.user.role !== 'admin') {
-            return res.status(400).json({ success: false, massage: `The user with ID ${req.user.id} has already made 3 appointments` });
+            return res.status(400).json({ success: false, message: `The user with ID ${req.user.id} has already made 3 appointments` });
         }
 
         const appointment = await Appointment.create(req.body);
         res.status(200).json({ suceess: true, data: appointment });
     } catch (err) {
         console.log(err.stack);
-        return res.status(500).json({ success: false, massage: `Cannot create appointment: ${err.message}` })
+        return res.status(500).json({ success: false, message: `Cannot create appointment: ${err.message}` })
     }
 };
 
@@ -125,12 +125,12 @@ exports.updateAppointment = async (req, res, next) => {
     try {
         let appointment = await Appointment.findById(req.params.id);
         if (!appointment) {
-            return res.status(404).json({ success: false, massage: `No appointment with the id of ${req.params.id}` });
+            return res.status(404).json({ success: false, message: `No appointment with the id of ${req.params.id}` });
         }
 
         //Make sure user is the appointment owner
         if (appointment.user.toString() !== req.user.id && req.user.role !== 'admin') {
-            return res.status(401).json({ success: false, massage: `User ${req.user.id} is not authorized to update this appointment` })
+            return res.status(401).json({ success: false, message: `User ${req.user.id} is not authorized to update this appointment` })
         }
 
         appointment = await Appointment.findByIdAndUpdate(req.params.id, req.body, {
@@ -144,7 +144,7 @@ exports.updateAppointment = async (req, res, next) => {
         });
     } catch (error) {
         console.log(error);
-        return res.status(500).json({ success: false, massage: "Cannot update Appointment" });
+        return res.status(500).json({ success: false, message: "Cannot update Appointment" });
     }
 };
 
@@ -156,12 +156,12 @@ exports.deleteAppointment = async (req, res, next) => {
         const appointment = await Appointment.findById(req.params.id);
 
         if (!appointment) {
-            return res.status(404).json({ success: false, massage: `No appt with id ${req.params.id}` });
+            return res.status(404).json({ success: false, message: `No appt with id ${req.params.id}` });
         }
 
         // Make sure user is the appointment owner
         if (appointment.user.toString() !== req.user.id && req.user.role !== 'admin') {
-            return res.status(401).json({ success: false, massage: `User ${req.user.id} is not authorized to delete this appointment` })
+            return res.status(401).json({ success: false, message: `User ${req.user.id} is not authorized to delete this appointment` })
         }
 
         await appointment.deleteOne();
@@ -169,6 +169,6 @@ exports.deleteAppointment = async (req, res, next) => {
 
     } catch (err) {
         console.log(err.stack);
-        return res.status(500).json({ success: false, massage: "Cannot delete Appointment" });
+        return res.status(500).json({ success: false, message: "Cannot delete Appointment" });
     }
 };
