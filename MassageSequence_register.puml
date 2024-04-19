@@ -1,0 +1,23 @@
+@startuml Register User (POST)
+
+header Sameple Massage Shop Sequence Diagram
+footer Page %page% of %lastpage%
+title "Register User (POST)"
+
+participant "Client" as client
+participant "<<javaScript>>\n:server" as server
+participant "<<router>>\n:register" as routerRegister
+participant "<<controllers>>\n:register" as controllersRegister
+participant "<<model>>\n:User" as modelUser
+database "<<MongoDB>>\n:user" as UserDatabase
+
+client->server ++:req.post('/register')
+server->routerRegister ++:app.use('/register',register)
+routerRegister -> controllersRegister ++:register()
+controllersRegister->modelUser ++:register(req.body)
+modelUser ->UserDatabase ++: UserSchema
+UserDatabase --> modelUser --: user
+controllersRegister <-- modelUser --:user
+controllersRegister->client --:response
+
+@enduml
