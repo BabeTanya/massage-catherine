@@ -29,7 +29,7 @@ exports.getAppointments = async (req, res, next) => {
         if (req.params.massageShopId) {
             query = Appointment.find({ massageShop: req.params.massageShopId }).populate({
                 path: 'massageShop',
-                select: 'name address phoneNumber'
+                select: 'name address phoneNumber openTime closeTime'
             }).populate({
                 path: 'massageType',
                 select: 'name price'
@@ -37,7 +37,7 @@ exports.getAppointments = async (req, res, next) => {
         } else {
             query = Appointment.find().populate({
                 path: 'massageShop',
-                select: 'name address phoneNumber'
+                select: 'name address phoneNumber openTime closeTime'
             }).populate({
                 path: 'massageType',
                 select: 'name price'
@@ -68,7 +68,7 @@ exports.getAppointment = async (req, res, next) => {
     try {
         const appointment = await Appointment.findById(req.params.id).populate({
             path: 'massageShop',
-            select: 'name description tel'
+            select: 'name address phoneNumber openTime closeTime'
         }).populate({
             path: 'massageType',
             select: 'name price'
