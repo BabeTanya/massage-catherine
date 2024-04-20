@@ -12,7 +12,7 @@ participant "<<model>>\n:User" as modelUser
 database "<<MongoDB>>\n:user" as UserDatabase
 
 client->server ++:req.post('/register')
-server->routerRegister ++:app.use('/register',register)
+server->routerRegister ++:app.use('/register',auth)
 routerRegister -> controllersRegister ++:register()
 controllersRegister->modelUser ++:register(req.body)
 modelUser ->UserDatabase ++: UserSchema

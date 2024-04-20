@@ -1,0 +1,23 @@
+@startuml Login (POST)
+
+header Sameple Massage Shop Sequence Diagram
+footer Page %page% of %lastpage%
+title "Login (POST)"
+
+participant "Client" as client
+participant "<<javaScript>>\n:server" as server
+participant "<<router>>\n:login" as routerLogin
+participant "<<controllers>>\n:login" as controllersLogin
+participant "<<model>>\n:User" as modelUser
+database "<<MongoDB>>\n:user" as UserDatabase
+
+client->server ++:req.post('/login')
+server->routerLogin ++:app.use('/login',auth)
+routerLogin -> controllersLogin ++:login()
+controllersLogin->modelUser ++:login(req.body)
+modelUser ->UserDatabase ++: UserSchema
+UserDatabase --> modelUser --: user
+controllersLogin <-- modelUser --:user
+controllersLogin->client --:response
+
+@enduml
