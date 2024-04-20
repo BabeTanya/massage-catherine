@@ -1,0 +1,23 @@
+@startuml Get All Massage Shop (GET)
+
+header Sameple Massage Shop Sequence Diagram
+footer Page %page% of %lastpage%
+title "Get All Massage Shop (GET)"
+
+participant "Client" as client
+participant "<<javaScript>>\n:server" as server
+participant "<<router>>\n:massage-shops" as routerMassageShop
+participant "<<controllers>>\n:getMassageShops" as controllersGetMassageShop
+participant "<<model>>\n:MassageShop" as modelMassageShop
+database "<<MongoDB>>\n:massageShop" as MassageShopDatabase
+
+client->server ++:req.get('/massage-shops')
+server->routerMassageShop ++:app.use('/massage-shops', massageShops)
+routerMassageShop -> controllersGetMassageShop ++:getMassageShops()
+controllersGetMassageShop->modelMassageShop ++:getMassageShops()
+modelMassageShop ->MassageShopDatabase ++: MassageShopSchema
+MassageShopDatabase --> modelMassageShop --: massageShops
+controllersGetMassageShop <-- modelMassageShop --:massageShops
+controllersGetMassageShop->client --:response
+
+@enduml

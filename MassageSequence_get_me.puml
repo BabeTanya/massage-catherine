@@ -1,0 +1,23 @@
+@startuml Get Me (GET)
+
+header Sameple Massage Shop Sequence Diagram
+footer Page %page% of %lastpage%
+title "Get Me (GET)"
+
+participant "Client" as client
+participant "<<javaScript>>\n:server" as server
+participant "<<router>>\n:me" as routerMe
+participant "<<controllers>>\n:getMe" as controllersGetMe
+participant "<<model>>\n:User" as modelUser
+database "<<MongoDB>>\n:user" as UserDatabase
+
+client->server ++:req.get('/me')
+server->routerMe ++:app.use('/me',auth)
+routerMe -> controllersGetMe ++:getMe()
+controllersGetMe->modelUser ++:getMe(req.user.id)
+modelUser ->UserDatabase ++: UserSchema
+UserDatabase --> modelUser --: user
+controllersGetMe <-- modelUser --:user
+controllersGetMe->client --:response
+
+@enduml
