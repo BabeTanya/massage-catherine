@@ -1,0 +1,45 @@
+@startuml Update Appointments (PUT)
+
+header Sameple Massage Shop Sequence Diagram
+footer Page %page% of %lastpage%
+title "Update Appointments (PUT)"
+
+participant "Client" as client
+participant "<<javaScript>>\n:server" as server
+participant "<<router>>\n:appointments" as routerAppointments
+participant "<<controllers>>\n:appointments" as controllersAppointments
+participant "<<model>>\n:appointment" as modelAppointment
+database "<<MongoDB>>\n:appointments" as AppointmentsDatabase
+
+client->server ++:req.put('appointments/:id')
+server->routerAppointments ++:app.use('appointments/:id')
+routerAppointments -> controllersAppointments ++:updateAppointment()
+controllersAppointments->modelAppointment: req.params.id
+modelAppointment ->AppointmentsDatabase ++: find appointment at AppointmentSchema
+modelAppointment <-- AppointmentsDatabase ++: response
+controllersAppointments <-- modelAppointment ++: response
+  alt Appointment does not exist
+    routerAppointments <-- controllersAppointments --:response no appointment
+    server <-- routerAppointments --:response no appointment
+    client <-- server --:response no appointment
+  else Appointment exist
+    controllersAppointments->modelAppointment: req.user.id
+    modelAppointment ->AppointmentsDatabase ++: make sure owner
+    modelAppointment <-- AppointmentsDatabase ++: response
+    controllersAppointments <-- modelAppointment ++: response
+    alt User is not owner and not admin role
+      routerAppointments <-- controllersAppointments --:response user not authorized
+      server <-- routerAppointments --:response user not authorized
+      client <-- server --:response user not authorized
+    else User is owner or admin
+      controllersAppointments->modelAppointment ++:updateMassageShop(req.params.id, req.body)
+      modelAppointment ->AppointmentsDatabase ++: AppointmentSchema
+      AppointmentsDatabase --> modelAppointment --: appointment
+      controllersAppointments <-- modelAppointment --:appointment
+      routerAppointments <-- controllersAppointments --:response
+      server <-- routerAppointments --:response
+      client <-- server --:response
+    end
+  end
+
+@enduml

@@ -1,0 +1,25 @@
+@startuml Get One Appointments For Massage Shop (GET)
+
+header Sameple Massage Shop Sequence Diagram
+footer Page %page% of %lastpage%
+title "Get One Appointments For Massage Shop (GET)"
+
+participant "Client" as client
+participant "<<javaScript>>\n:server" as server
+participant "<<router>>\n:appointments" as routerAppointments
+participant "<<controllers>>\n:appointments" as controllersAppointments
+participant "<<model>>\n:appointment" as modelAppointment
+database "<<MongoDB>>\n:appointments" as AppointmentsDatabase
+
+client->server ++:req.get('massage-shops/:massageShopId/appointments')
+server->routerAppointments ++:app.use('massage-shops/:massageShopId/appointments')
+routerAppointments -> controllersAppointments ++:getAppointment()
+controllersAppointments->modelAppointment ++:getAppointment(req.params.id)
+modelAppointment ->AppointmentsDatabase ++: AppointmentSchema
+AppointmentsDatabase --> modelAppointment --: appointment
+controllersAppointments <-- modelAppointment --:appointment
+routerAppointments <-- controllersAppointments --:response
+server <-- routerAppointments --:response
+client <-- server --:response
+
+@enduml
