@@ -13,6 +13,10 @@ database "<<MongoDB>>\n:massageShop" as MassageShopDatabase
 
 client->server ++:req.delete('/massage-shops/:id')
 server->routerMassageShop ++:app.use('/massage-shops/:id', massageShops)
+alt case User is user role
+server<--routerMassageShop: Unauthorize Response
+client <-- server: Unauthorize Response
+else case User is admin role
 routerMassageShop -> controllersDeleteMassageShop ++:deleteMassageShop()
 controllersDeleteMassageShop->modelMassageShop ++:deleteMassageShop(req.params.id)
 modelMassageShop ->MassageShopDatabase ++: MassageShopSchema
@@ -21,5 +25,5 @@ controllersDeleteMassageShop <-- modelMassageShop --:massageShop
 routerMassageShop <-- controllersDeleteMassageShop --:response
 server <-- routerMassageShop --:response
 client <-- server --:response
-
+end
 @enduml

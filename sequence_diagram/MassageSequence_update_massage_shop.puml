@@ -13,13 +13,18 @@ database "<<MongoDB>>\n:massageShop" as MassageShopDatabase
 
 client->server ++:req.put('/massage-shops/:id')
 server->routerMassageShop ++:app.use('/massage-shops/:id', massageShops)
+alt case User is user role
+server<--routerMassageShop: Unauthorize Response
+client <-- server: Unauthorize Response
+else case User is admin role
 routerMassageShop -> controllersUpdateMassageShop ++:updateMassageShop()
 controllersUpdateMassageShop->modelMassageShop ++:updateMassageShop(req.params.id, req.body)
 modelMassageShop ->MassageShopDatabase ++: MassageShopSchema
 MassageShopDatabase --> modelMassageShop --: massageShop
 controllersUpdateMassageShop <-- modelMassageShop --:massageShop
-routerMassageShop <-- controllersUpdateMassageShop --:response clear cookies
-server <-- routerMassageShop --:response clear cookies
-client <-- server --:response clear cookies
+routerMassageShop <-- controllersUpdateMassageShop --:response
+server <-- routerMassageShop --:response
+client <-- server --:response
+end
 
 @enduml
