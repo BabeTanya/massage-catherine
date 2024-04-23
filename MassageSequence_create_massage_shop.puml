@@ -18,6 +18,8 @@ controllersCreateMassageShop->modelMassageShop ++:createMassageShop(req.body)
 modelMassageShop ->MassageShopDatabase ++: MassageShopSchema
 MassageShopDatabase --> modelMassageShop --: massageShop
 controllersCreateMassageShop <-- modelMassageShop --:massageShop
-controllersCreateMassageShop->client --:response
+routerMassageShop <-- controllersCreateMassageShop --:response
+server <-- routerMassageShop --:response
+client <-- server --:response
 
 @enduml

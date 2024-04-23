@@ -18,6 +18,8 @@ controllersDeleteMassageShop->modelMassageShop ++:deleteMassageShop(req.params.i
 modelMassageShop ->MassageShopDatabase ++: MassageShopSchema
 MassageShopDatabase --> modelMassageShop --: massageShop
 controllersDeleteMassageShop <-- modelMassageShop --:massageShop
-controllersDeleteMassageShop->client --:response
+routerMassageShop <-- controllersDeleteMassageShop --:response
+server <-- routerMassageShop --:response
+client <-- server --:response
 
 @enduml

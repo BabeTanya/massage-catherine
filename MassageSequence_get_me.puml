@@ -18,6 +18,8 @@ controllersGetMe->modelUser ++:getMe(req.user.id)
 modelUser ->UserDatabase ++: UserSchema
 UserDatabase --> modelUser --: user
 controllersGetMe <-- modelUser --:user
-controllersGetMe->client --:response
+routerMe <-- controllersGetMe --:response
+server <-- routerMe --:response
+client <-- server --:response
 
 @enduml

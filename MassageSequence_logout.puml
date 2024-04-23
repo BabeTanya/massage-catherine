@@ -14,6 +14,8 @@ database "<<MongoDB>>\n:user" as UserDatabase
 client->server ++:req.get('/logout')
 server->routerLogout ++:app.use('/logout',auth)
 routerLogout -> controllersLogout ++:logout()
-controllersLogout->client --:response clear cookies
+routerLogout <-- controllersLogout --:response clear cookies
+server <-- routerLogout --:response clear cookies
+client <-- server --:response clear cookies
 
 @enduml
