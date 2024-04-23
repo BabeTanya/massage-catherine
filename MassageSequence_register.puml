@@ -18,6 +18,8 @@ controllersRegister->modelUser ++:register(req.body)
 modelUser ->UserDatabase ++: UserSchema
 UserDatabase --> modelUser --: user
 controllersRegister <-- modelUser --:user
-controllersRegister->client --:response
+routerRegister <-- controllersRegister --:response
+server <-- routerRegister --:response
+client <-- server --:response
 
 @enduml

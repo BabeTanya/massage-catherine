@@ -18,6 +18,8 @@ controllersLogin->modelUser ++:login(req.body)
 modelUser ->UserDatabase ++: UserSchema
 UserDatabase --> modelUser --: user
 controllersLogin <-- modelUser --:user
-controllersLogin->client --:response
+routerLogin <-- controllersLogin --:response
+server <-- routerLogin --:response
+client <-- server --:response
 
 @enduml
