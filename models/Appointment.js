@@ -23,15 +23,7 @@ const AppointmentSchema = new mongoose.Schema({
         type: mongoose.Schema.ObjectId,
         ref: 'MassageType',
         required: true
-    },
-    // massageType: {
-    //     type: String,
-    //     enum: {
-    //         values: ['Neck-Back', 'Thai', 'Aroma'],
-    //         message: '{VALUE} is not supported, Please specify Neck-Back, Thai or Aroma'
-    //     },
-    //     required: true
-    // }
+    }
 });
 
 module.exports = mongoose.model('Appointment', AppointmentSchema);

@@ -7,7 +7,6 @@ const MassageShop = require('../models/MassageShop');
 //@access  Private
 exports.getMassageTypes = async (req, res, next) => {
     const massageTypes = await MassageType.find({});
-
     return res.status(200).json({
         data: massageTypes,
         success: true,

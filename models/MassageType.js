@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const MassageTypeSchema =  new mongoose.Schema({
+const MassageTypeSchema = new mongoose.Schema({
     name: {
         type: String,
         required: [true, 'Please add a name'],
@@ -12,9 +12,9 @@ const MassageTypeSchema =  new mongoose.Schema({
         type: Number,
         required: [true, 'Please add price']
     }
-},{
-    toJSON: {virtuals: true},
-    toObject: {virtuals: true}
+}, {
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true }
 })
 
-module.exports=mongoose.model('MassageType', MassageTypeSchema);
+module.exports = mongoose.model('MassageType', MassageTypeSchema);

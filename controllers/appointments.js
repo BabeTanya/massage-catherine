@@ -110,15 +110,15 @@ exports.addAppointment = async (req, res, next) => {
             return res.status(400).json({ success: false, message: `The user with ID ${req.user.id} has already made 3 appointments` });
         }
 
-        const appointment = await Appointment.create(req.body);
-        const newAppointment = await Appointment.findById(appointment.id).populate({
+        const createAppointment = await Appointment.create(req.body);
+        const appointment = await Appointment.findById(createAppointment.id).populate({
             path: 'massageShop',
             select: 'name address phoneNumber openTime closeTime'
         }).populate({
             path: 'massageType',
             select: 'name price'
         });;
-        res.status(200).json({ suceess: true, data: newAppointment });
+        res.status(200).json({ suceess: true, data: appointment });
     } catch (err) {
         console.log(err.stack);
         return res.status(500).json({ success: false, message: `Cannot create appointment: ${err.message}` })
