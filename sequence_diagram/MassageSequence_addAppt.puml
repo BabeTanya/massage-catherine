@@ -7,65 +7,68 @@ title "Add Appointments (POST)"
 participant "Client" as client
 participant "<<javaScript>>\n:server" as server
 participant "<<router>>\n:appointments" as routerAppointments
+participant "<<middleware>>\n:auth" as middleware
+participant "<<service>>\n:jwt" as service
 participant "<<controllers>>\n:appointments" as controllersAppointments
+participant "<<model>>\n:User" as modelUser
+participant "<<model>>\n:massageShop" as modelMassageShop
 participant "<<model>>\n:appointment" as modelAppointment
+database "<<MongoDB>>\n:users" as UsersDatabase
+database "<<MongoDB>>\n:massageShop" as MassageShopsDatabase
 database "<<MongoDB>>\n:appointments" as AppointmentsDatabase
 
 client->server ++:req.post('massageShops/:massageShopId/appointments')
-server->routerAppointments ++:app.use('massageShops/:massageShopId/appointments')
+server->routerAppointments ++:app.use('/:massageShopId/appointments', appointments)
+routerAppointments -> middleware ++:protect()
+middleware -> service ++:verify(token, secret)
+middleware <-- service ++:decoded
+middleware -> modelUser ++:findById(decoded id)
+modelUser -> UsersDatabase ++:findById({_id:decoded id})
+modelUser <-- UsersDatabase ++:user
+middleware <-- modelUser ++:user
+routerAppointments <-- middleware ++:user
+routerAppointments -> middleware ++:authorize('admin','user')
+middleware -> middleware ++:includes(req.user.role)
+routerAppointments <-- middleware ++:next()
 routerAppointments -> controllersAppointments ++:addAppointment()
-controllersAppointments->modelAppointment: req.params.massageShopId
-modelAppointment ->AppointmentsDatabase ++: find massage shop id at AppointmentSchema
-modelAppointment <-- AppointmentsDatabase ++: response
-controllersAppointments <-- modelAppointment ++: response
+controllersAppointments->modelMassageShop: findById(req.params.massageShopId)
+modelMassageShop ->MassageShopsDatabase ++: findId({_id:massageShopId})
+modelMassageShop <-- MassageShopsDatabase ++: response
+controllersAppointments <-- modelMassageShop ++: response
 alt Massage shop does not exist
-  routerAppointments <-- controllersAppointments --:response
-  server <-- routerAppointments --:response
-  client <-- server --:response
+  client <-- controllersAppointments --:response no massage shop
 else Massage shop exist
-  controllersAppointments->modelAppointment: req.user.id
-  modelAppointment ->AppointmentsDatabase ++: check for exist appt
-  modelAppointment <-- AppointmentsDatabase ++: response
+  controllersAppointments->modelAppointment: find({ user: req.user.id })
+  modelAppointment ->AppointmentsDatabase ++: findId({_id: user.id})
+  modelAppointment <-- AppointmentsDatabase ++: appointment
   controllersAppointments <-- modelAppointment ++: response
   alt Appointment does not exist
     controllersAppointments->modelAppointment ++:addAppointment(req.body)
     modelAppointment ->AppointmentsDatabase ++: AppointmentSchema
     AppointmentsDatabase --> modelAppointment --: appointment
     controllersAppointments <-- modelAppointment --:appointment
-    routerAppointments <-- controllersAppointments --:response
-    server <-- routerAppointments --:response
-    client <-- server --:response
+    client <- controllersAppointments --:response
   else Appointment exist
     controllersAppointments->modelAppointment: req.user.role
     modelAppointment ->AppointmentsDatabase ++: check role user
     modelAppointment <-- AppointmentsDatabase ++: response
     controllersAppointments <-- modelAppointment ++: response
-    alt User is admin role
+    alt Have already 3 Appointments
+      alt User is Role user
+        client <- controllersAppointments ++: has already 3 appointments
+      else User is Role admin
+        controllersAppointments->modelAppointment ++:addAppointment(req.body)
+      modelAppointment ->AppointmentsDatabase ++: AppointmentSchema
+      AppointmentsDatabase --> modelAppointment --: appointment
+      controllersAppointments <-- modelAppointment --:appointment
+      client <-- controllersAppointments --:response
+      end
+    else Have under 3 Appointments
       controllersAppointments->modelAppointment ++:addAppointment(req.body)
       modelAppointment ->AppointmentsDatabase ++: AppointmentSchema
       AppointmentsDatabase --> modelAppointment --: appointment
       controllersAppointments <-- modelAppointment --:appointment
-      routerAppointments <-- controllersAppointments --:response
-      server <-- routerAppointments --:response
-      client <-- server --:response
-    else User is user role
-      alt Add Appointment under 3 times
-        controllersAppointments->modelAppointment ++:addAppointment(req.body)
-        modelAppointment ->AppointmentsDatabase ++: AppointmentSchema
-        AppointmentsDatabase --> modelAppointment --: appointment
-        controllersAppointments <-- modelAppointment --:appointment
-        routerAppointments <-- controllersAppointments --:response
-        server <-- routerAppointments --:response
-        client <-- server --:response
-      else Add Appointment over 3 times
-        controllersAppointments->modelAppointment ++:addAppointment(req.body)
-        modelAppointment ->AppointmentsDatabase ++: AppointmentSchema
-        AppointmentsDatabase --> modelAppointment --: response fail
-        controllersAppointments <-- modelAppointment --: response fail
-        routerAppointments <-- controllersAppointments --:response fail
-        server <-- routerAppointments --:response fail
-        client <-- server --:response fail
-      end
+      client <-- controllersAppointments --:response
     end
   end
 end

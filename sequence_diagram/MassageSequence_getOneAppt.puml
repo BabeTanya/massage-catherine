@@ -7,19 +7,35 @@ title "Get One Appointments (GET)"
 participant "Client" as client
 participant "<<javaScript>>\n:server" as server
 participant "<<router>>\n:appointments" as routerAppointments
+participant "<<middleware>>\n:auth" as middleware
+participant "<<service>>\n:jwt" as service
 participant "<<controllers>>\n:appointments" as controllersAppointments
+participant "<<model>>\n:User" as modelUser
 participant "<<model>>\n:appointment" as modelAppointment
+database "<<MongoDB>>\n:users" as UsersDatabase
 database "<<MongoDB>>\n:appointments" as AppointmentsDatabase
 
 client->server ++:req.get('/appointments/:id')
-server->routerAppointments ++:app.use('/appointments/:id')
+server->routerAppointments ++:app.use('/appointments/:id', getAppointment)
+routerAppointments -> middleware ++:protect()
+middleware -> service ++:verify(token, secret)
+middleware <-- service ++:decoded
+middleware -> modelUser ++:findById(decoded id)
+modelUser -> UsersDatabase ++:findById({_id:decoded id})
+modelUser <-- UsersDatabase ++:user
+middleware <-- modelUser ++:user
+routerAppointments <-- middleware ++:user
 routerAppointments -> controllersAppointments ++:getAppointment()
-controllersAppointments->modelAppointment ++:getAppointment(req.params.id)
+controllersAppointments->modelAppointment ++:findById(req.params.id)
 modelAppointment ->AppointmentsDatabase ++: AppointmentSchema
-AppointmentsDatabase --> modelAppointment --: appointment
-controllersAppointments <-- modelAppointment --:appointment
-routerAppointments <-- controllersAppointments --:response
-server <-- routerAppointments --:response
-client <-- server --:response
+alt no appointment with id
+  AppointmentsDatabase --> modelAppointment --: response no appointment
+  controllersAppointments <-- modelAppointment --:response no appointment
+  client <-- controllersAppointments --:response no appointment
+else have appointment
+  AppointmentsDatabase --> modelAppointment --: appointment
+  controllersAppointments <-- modelAppointment --: appointment
+  client <-- controllersAppointments --:response
+end
 
 @enduml

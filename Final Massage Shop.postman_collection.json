@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "74fbe33a-cc25-4186-bb12-ea84816e613e",
+		"_postman_id": "9877c9ad-ff22-4b34-ae3f-c8190a24b670",
 		"name": "Massage Shop",
 		"description": "Backend API for reserving Vaccine jab timeslots, including hospitals, users, and bookings.",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
@@ -786,7 +786,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"apptDate\":\"2024-01-15T17:00:00.000Z\",\n    \"massageType\": \"66213bd25efb39e80db74fa2\"\n}",
+							"raw": "{\n    \"apptDate\":\"2024-01-15T17:00:00.000Z\",\n    \"massageType\": \"662a83b601645bd873962b3d\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -794,7 +794,7 @@
 							}
 						},
 						"url": {
-							"raw": "{{URL}}/api/v1/massage-shops/6610f8c43cce03b5c950c8ff/appointments",
+							"raw": "{{URL}}/api/v1/massage-shops/6610f8c43cce03b5c950c901/appointments",
 							"host": [
 								"{{URL}}"
 							],
@@ -802,7 +802,7 @@
 								"api",
 								"v1",
 								"massage-shops",
-								"6610f8c43cce03b5c950c8ff",
+								"6610f8c43cce03b5c950c901",
 								"appointments"
 							]
 						}
@@ -988,11 +988,21 @@
 						}
 					],
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"name\": \"Foot Massage {{$randomBankAccount}}\",\n    \"price\": \"400\"\n}",
+							"raw": "{\n    \"name\": \"Foot Massage\",\n    \"price\": \"400\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1016,7 +1026,7 @@
 			]
 		},
 		{
-			"name": "Demo User",
+			"name": "Demo",
 			"item": [
 				{
 					"name": "User Register",
@@ -1054,7 +1064,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"name\":\"{{$randomFullName}}\",\n    \"email\": \"user-11@gmail.com\",\n    \"password\": \"123456\",\n    \"phoneNumber\": \"08{{$randomBankAccount}}\",\n    \"role\": \"user\"\n}",
+							"raw": "{\n    \"name\":\"{{$randomFullName}}\",\n    \"email\": \"user-110@gmail.com\",\n    \"password\": \"123456\",\n    \"phoneNumber\": \"08{{$randomBankAccount}}\",\n    \"role\": \"user\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1112,7 +1122,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"email\": \"user-11@gmail.com\",\n    \"password\": \"123456\"\n}",
+							"raw": "{\n    \"email\": \"user-110@gmail.com\",\n    \"password\": \"123456\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1190,6 +1200,7 @@
 									"});",
 									"",
 									"const response = pm.response.json();",
+									"console.log('response', response);",
 									"const new_appointment_id = response.data._id;",
 									"",
 									"pm.globals.set(\"global_appointment_ID\",new_appointment_id);",
@@ -1222,7 +1233,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"apptDate\":\"2024-01-15T17:00:00.000Z\",\n    \"massageType\": \"Thai\"\n}",
+							"raw": "{\n    \"apptDate\":\"2024-01-15T17:00:00.000Z\",\n    \"massageType\": \"66213bd25efb39e80db74fa2\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1289,7 +1300,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"apptDate\":\"2024-01-15T17:00:00.000Z\",\n    \"massageType\": \"Thai\"\n}",
+							"raw": "{\n    \"apptDate\":\"2024-01-15T17:00:00.000Z\",\n    \"massageType\": \"66213bd25efb39e80db74fa2\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1356,7 +1367,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"apptDate\":\"2024-01-15T17:00:00.000Z\",\n    \"massageType\": \"Thai\"\n}",
+							"raw": "{\n    \"apptDate\":\"2024-01-15T17:00:00.000Z\",\n    \"massageType\": \"66213bd25efb39e80db74fa2\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1423,7 +1434,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"apptDate\":\"2024-01-15T17:00:00.000Z\",\n    \"massageType\": \"Thai\"\n}",
+							"raw": "{\n    \"apptDate\":\"2024-01-15T17:00:00.000Z\",\n    \"massageType\": \"66213bd25efb39e80db74fa2\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1614,6 +1625,110 @@
 					"response": []
 				},
 				{
+					"name": "Update Appt that not own by user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 401\", function () {",
+									"    pm.response.to.have.status(401);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": "JSON Type",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"massageShop\": \"6610f8c43cce03b5c950c8ff\",\n    \"apptDate\": \"2024-05-15T17:00:00.000Z\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/api/v1/appointments/6610ff0c24517d45219446ba",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"appointments",
+								"6610ff0c24517d45219446ba"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "User Delete Appt that not own by user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 401\", function () {",
+									"    pm.response.to.have.status(401);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/api/v1/appointments/6610ff0c24517d45219446ba",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"appointments",
+								"6610ff0c24517d45219446ba"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "User Logout",
 					"event": [
 						{
@@ -1658,12 +1773,7 @@
 						}
 					},
 					"response": []
-				}
-			]
-		},
-		{
-			"name": "Demo Admin",
-			"item": [
+				},
 				{
 					"name": "Admin Login",
 					"event": [
@@ -1768,6 +1878,207 @@
 				},
 				{
 					"name": "Admin Add Appt",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"const response = pm.response.json();",
+									"const new_appointment_id = response.data._id;",
+									"",
+									"pm.globals.set(\"global_appointment_ID\",new_appointment_id);",
+									"pm.environment.set(\"global_appointment_ID\",new_appointment_id);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": "JSON Type",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"apptDate\":\"2024-01-15T17:00:00.000Z\",\n    \"massageType\": \"66213bd25efb39e80db74fa2\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/api/v1/massage-shops/6623cc3bc9603fe8b099b64d/appointments",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"massage-shops",
+								"6623cc3bc9603fe8b099b64d",
+								"appointments"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Admin Add Appt2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"const response = pm.response.json();",
+									"const new_appointment_id = response.data._id;",
+									"",
+									"pm.globals.set(\"global_appointment_ID\",new_appointment_id);",
+									"pm.environment.set(\"global_appointment_ID\",new_appointment_id);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": "JSON Type",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"apptDate\":\"2024-01-15T17:00:00.000Z\",\n    \"massageType\": \"66213bd25efb39e80db74fa2\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/api/v1/massage-shops/6623cc3bc9603fe8b099b64d/appointments",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"massage-shops",
+								"6623cc3bc9603fe8b099b64d",
+								"appointments"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Admin Add Appt3",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"const response = pm.response.json();",
+									"const new_appointment_id = response.data._id;",
+									"",
+									"pm.globals.set(\"global_appointment_ID\",new_appointment_id);",
+									"pm.environment.set(\"global_appointment_ID\",new_appointment_id);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": "JSON Type",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"apptDate\":\"2024-01-15T17:00:00.000Z\",\n    \"massageType\": \"66213bd25efb39e80db74fa2\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/api/v1/massage-shops/6623cc3bc9603fe8b099b64d/appointments",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"massage-shops",
+								"6623cc3bc9603fe8b099b64d",
+								"appointments"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Admin Add Appt over 3 times",
 					"event": [
 						{
 							"listen": "test",
@@ -1995,6 +2306,802 @@
 									"key": "appointment_ID",
 									"value": "{{global_appointment_ID}}"
 								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Admin Update others Appt",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": "JSON Type",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"massageShop\": \"6610f8c43cce03b5c950c8ff\",\n    \"apptDate\": \"2024-05-15T17:00:00.000Z\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/api/v1/appointments/662bbc57ae27613446a4b9b2",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"appointments",
+								"662bbc57ae27613446a4b9b2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Admin Delete others Appt",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/api/v1/appointments/662bbc57ae27613446a4b9b2",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"appointments",
+								"662bbc57ae27613446a4b9b2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Admin Logout",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.environment.set(\"TOKEN\", null)",
+									"",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/api/v1/auth/logout",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"logout"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Demo Admin",
+			"item": [
+				{
+					"name": "Admin Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.environment.set(\"TOKEN\",pm.response.json().token)",
+									"",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"const response = pm.response.json();",
+									"",
+									"pm.test(\"Should return token in response\", () => {",
+									"    pm.expect(response.token).to.be.a('string').and.not.be.empty",
+									"})"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": "JSON Type",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"admin@gmail.com\",\n    \"password\": \"123456\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/api/v1/auth/login",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Admin Get All Massage Shop",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"const response = pm.response.json();",
+									"",
+									"console.log(response);",
+									"",
+									"pm.test(\"There are some massage shops\", () => {",
+									"    pm.expect(response.count).to.be.above(0)",
+									"})",
+									"",
+									"postman.setNextRequest(\"Admin Add Appt\");"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/api/v1/massage-shops",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"massage-shops"
+							]
+						},
+						"description": "Fetch all hospitals from database"
+					},
+					"response": []
+				},
+				{
+					"name": "Admin Add Appt",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"const response = pm.response.json();",
+									"const new_appointment_id = response.data._id;",
+									"",
+									"pm.globals.set(\"global_appointment_ID\",new_appointment_id);",
+									"pm.environment.set(\"global_appointment_ID\",new_appointment_id);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": "JSON Type",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"apptDate\":\"2024-01-15T17:00:00.000Z\",\n    \"massageType\": \"66213bd25efb39e80db74fa2\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/api/v1/massage-shops/6623cc3bc9603fe8b099b64d/appointments",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"massage-shops",
+								"6623cc3bc9603fe8b099b64d",
+								"appointments"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Admin Add Appt2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"const response = pm.response.json();",
+									"const new_appointment_id = response.data._id;",
+									"",
+									"pm.globals.set(\"global_appointment_ID\",new_appointment_id);",
+									"pm.environment.set(\"global_appointment_ID\",new_appointment_id);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": "JSON Type",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"apptDate\":\"2024-01-15T17:00:00.000Z\",\n    \"massageType\": \"66213bd25efb39e80db74fa2\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/api/v1/massage-shops/6623cc3bc9603fe8b099b64d/appointments",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"massage-shops",
+								"6623cc3bc9603fe8b099b64d",
+								"appointments"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Admin Add Appt3",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"const response = pm.response.json();",
+									"const new_appointment_id = response.data._id;",
+									"",
+									"pm.globals.set(\"global_appointment_ID\",new_appointment_id);",
+									"pm.environment.set(\"global_appointment_ID\",new_appointment_id);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": "JSON Type",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"apptDate\":\"2024-01-15T17:00:00.000Z\",\n    \"massageType\": \"66213bd25efb39e80db74fa2\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/api/v1/massage-shops/6623cc3bc9603fe8b099b64d/appointments",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"massage-shops",
+								"6623cc3bc9603fe8b099b64d",
+								"appointments"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Admin Add Appt over 3 times",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"const response = pm.response.json();",
+									"const new_appointment_id = response.data._id;",
+									"",
+									"pm.globals.set(\"global_appointment_ID\",new_appointment_id);",
+									"pm.environment.set(\"global_appointment_ID\",new_appointment_id);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": "JSON Type",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"apptDate\":\"2024-01-15T17:00:00.000Z\",\n    \"massageType\": \"66213bd25efb39e80db74fa2\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/api/v1/massage-shops/6623cc3bc9603fe8b099b64d/appointments",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"massage-shops",
+								"6623cc3bc9603fe8b099b64d",
+								"appointments"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Admin Get All Appts",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"const response = pm.response.json();",
+									"",
+									"console.log(response);",
+									"",
+									"pm.test(\"There are some massage appointments\", () => {",
+									"    pm.expect(response.count).to.be.above(0)",
+									"})"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/api/v1/appointments",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"appointments"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Admin Update Appt",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": "JSON Type",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"massageShop\": \"6610f8c43cce03b5c950c8ff\",\n    \"apptDate\": \"2024-05-15T17:00:00.000Z\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/api/v1/appointments/:appointment_ID",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"appointments",
+								":appointment_ID"
+							],
+							"variable": [
+								{
+									"key": "appointment_ID",
+									"value": "{{global_appointment_ID}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Admin Delete Appt",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/api/v1/appointments/:appointment_ID",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"appointments",
+								":appointment_ID"
+							],
+							"variable": [
+								{
+									"key": "appointment_ID",
+									"value": "{{global_appointment_ID}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Admin Update others Appt",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": "JSON Type",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"massageShop\": \"6610f8c43cce03b5c950c8ff\",\n    \"apptDate\": \"2024-05-15T17:00:00.000Z\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/api/v1/appointments/662bb835ae27613446a4b789",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"appointments",
+								"662bb835ae27613446a4b789"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Admin Delete others Appt",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/api/v1/appointments/662bb835ae27613446a4b789",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"appointments",
+								"662bb835ae27613446a4b789"
 							]
 						}
 					},

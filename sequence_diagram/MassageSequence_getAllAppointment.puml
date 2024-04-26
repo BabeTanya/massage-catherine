@@ -7,23 +7,53 @@ title "Get All Appointments (GET)"
 participant "Client" as client
 participant "<<javaScript>>\n:server" as server
 participant "<<router>>\n:appointments" as routerAppointments
+participant "<<middleware>>\n:auth" as middleware
+participant "<<service>>\n:jwt" as service
 participant "<<controllers>>\n:appointments" as controllersAppointments
+participant "<<model>>\n:User" as modelUser
 participant "<<model>>\n:appointment" as modelAppointment
+database "<<MongoDB>>\n:users" as UsersDatabase
 database "<<MongoDB>>\n:appointments" as AppointmentsDatabase
 
 client->server ++:req.get('/appointments')
 server->routerAppointments ++:app.use('/appointments', appointments)
+routerAppointments -> middleware ++:protect()
+middleware -> service ++:verify(token, secret)
+middleware <-- service ++:decoded
+middleware -> modelUser ++:findById(decoded id)
+modelUser -> UsersDatabase ++:findById({_id:decoded id})
+modelUser <-- UsersDatabase ++:user
+middleware <-- modelUser ++:user
+routerAppointments <-- middleware ++:user
 routerAppointments -> controllersAppointments ++:getAppointments()
-alt case User is admin role
-controllersAppointments->modelAppointment: req.params.massageShopId
-else case User is user role
-controllersAppointments->modelAppointment: req.user.id
+alt User is not admin role
+  alt Params have massage shop id
+    controllersAppointments->modelAppointment: find(req.user.id,req.params.massageShopId)
+    modelAppointment ->AppointmentsDatabase ++: AppointmentSchema
+    AppointmentsDatabase --> modelAppointment --: appointments
+    controllersAppointments <-- modelAppointment --:appointments
+    client <-- controllersAppointments --:response
+  else not have massage shop id
+    controllersAppointments->modelAppointment: find(req.user.id)
+    modelAppointment ->AppointmentsDatabase ++: AppointmentSchema
+    AppointmentsDatabase --> modelAppointment --: appointments
+    controllersAppointments <-- modelAppointment --:appointments
+    client <-- controllersAppointments --:response
+  end
+else User is admin role
+  alt Params have massage shop id
+    controllersAppointments->modelAppointment: find(req.params.massageShopId)
+    modelAppointment ->AppointmentsDatabase ++: AppointmentSchema
+    AppointmentsDatabase --> modelAppointment --: appointments
+    controllersAppointments <-- modelAppointment --:appointments
+    client <-- controllersAppointments --:response
+  else not have massage shop id
+    controllersAppointments->modelAppointment: find()
+    modelAppointment ->AppointmentsDatabase ++: AppointmentSchema
+    AppointmentsDatabase --> modelAppointment --: appointments
+    controllersAppointments <-- modelAppointment --:appointments
+    client <-- controllersAppointments --:response
+  end
 end
-modelAppointment ->AppointmentsDatabase ++: AppointmentSchema
-AppointmentsDatabase --> modelAppointment --: appointments
-controllersAppointments <-- modelAppointment --:appointments
-routerAppointments <-- controllersAppointments --:response
-server <-- routerAppointments --:response
-client <-- server --:response
 
 @enduml

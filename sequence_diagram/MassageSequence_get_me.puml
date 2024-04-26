@@ -7,19 +7,29 @@ title "Get Me (GET)"
 participant "Client" as client
 participant "<<javaScript>>\n:server" as server
 participant "<<router>>\n:me" as routerMe
+participant "<<middleware>>\n:auth" as middleware
+participant "<<service>>\n:jwt" as service
 participant "<<controllers>>\n:getMe" as controllersGetMe
 participant "<<model>>\n:User" as modelUser
 database "<<MongoDB>>\n:user" as UserDatabase
 
 client->server ++:req.get('/me')
 server->routerMe ++:app.use('/me',auth)
+routerMe -> middleware ++:protect()
+middleware -> service ++:verify(token, secret)
+middleware <-- service ++:decoded
+middleware -> modelUser ++:findById(decoded id)
+modelUser -> UserDatabase ++:findById({_id:decoded id})
+modelUser <-- UserDatabase ++:user
+middleware <-- modelUser ++:user
+routerMe <-- middleware ++:user
 routerMe -> controllersGetMe ++:getMe()
-controllersGetMe->modelUser ++:getMe(req.user.id)
+controllersGetMe->modelUser ++:findById(req.user.id)
 modelUser ->UserDatabase ++: UserSchema
 UserDatabase --> modelUser --: user
 controllersGetMe <-- modelUser --:user
-routerMe <-- controllersGetMe --:response
-server <-- routerMe --:response
-client <-- server --:response
+client <- controllersGetMe --:response
+' server <-- routerMe --:response
+' client <-- server --:response
 
 @enduml

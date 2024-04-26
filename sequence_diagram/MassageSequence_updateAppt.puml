@@ -7,38 +7,45 @@ title "Update Appointments (PUT)"
 participant "Client" as client
 participant "<<javaScript>>\n:server" as server
 participant "<<router>>\n:appointments" as routerAppointments
+participant "<<middleware>>\n:auth" as middleware
+participant "<<service>>\n:jwt" as service
 participant "<<controllers>>\n:appointments" as controllersAppointments
+participant "<<model>>\n:User" as modelUser
 participant "<<model>>\n:appointment" as modelAppointment
+database "<<MongoDB>>\n:users" as UsersDatabase
 database "<<MongoDB>>\n:appointments" as AppointmentsDatabase
 
 client->server ++:req.put('appointments/:id')
-server->routerAppointments ++:app.use('appointments/:id')
+server->routerAppointments ++:app.use('appointments/:id', updateAppointment)
+routerAppointments -> middleware ++:protect()
+middleware -> service ++:verify(token, secret)
+middleware <-- service ++:decoded
+middleware -> modelUser ++:findById(decoded id)
+modelUser -> UsersDatabase ++:findById({_id:decoded id})
+modelUser <-- UsersDatabase ++:user
+middleware <-- modelUser ++:user
+routerAppointments <-- middleware ++:user
+routerAppointments -> middleware ++:authorize('admin','user')
+middleware -> middleware ++:includes(req.user.role)
+routerAppointments <-- middleware ++:next()
 routerAppointments -> controllersAppointments ++:updateAppointment()
-controllersAppointments->modelAppointment: req.params.id
-modelAppointment ->AppointmentsDatabase ++: find appointment at AppointmentSchema
-modelAppointment <-- AppointmentsDatabase ++: response
-controllersAppointments <-- modelAppointment ++: response
+controllersAppointments->modelAppointment: findById(req.params.id)
+modelAppointment ->AppointmentsDatabase ++: findById({_id: id})
   alt Appointment does not exist
-    routerAppointments <-- controllersAppointments --:response no appointment
-    server <-- routerAppointments --:response no appointment
-    client <-- server --:response no appointment
+    modelAppointment <-- AppointmentsDatabase ++: response no appointment
+    controllersAppointments <-- modelAppointment ++: response no appointment
+    client <-- controllersAppointments --:response no appointment
   else Appointment exist
-    controllersAppointments->modelAppointment: req.user.id
-    modelAppointment ->AppointmentsDatabase ++: make sure owner
-    modelAppointment <-- AppointmentsDatabase ++: response
+    modelAppointment <-- AppointmentsDatabase ++: appointment
     controllersAppointments <-- modelAppointment ++: response
     alt User is not owner and not admin role
-      routerAppointments <-- controllersAppointments --:response user not authorized
-      server <-- routerAppointments --:response user not authorized
-      client <-- server --:response user not authorized
+      client <-- controllersAppointments --:response user not authorized
     else User is owner or admin
-      controllersAppointments->modelAppointment ++:updateMassageShop(req.params.id, req.body)
+      controllersAppointments->modelAppointment ++:findByIdAndUpdate(req.params.id, req.body)
       modelAppointment ->AppointmentsDatabase ++: AppointmentSchema
       AppointmentsDatabase --> modelAppointment --: appointment
       controllersAppointments <-- modelAppointment --:appointment
-      routerAppointments <-- controllersAppointments --:response
-      server <-- routerAppointments --:response
-      client <-- server --:response
+      client <-- controllersAppointments --:response
     end
   end
 

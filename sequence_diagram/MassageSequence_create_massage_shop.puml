@@ -7,24 +7,39 @@ title "Create Massage Shop (POST)"
 participant "Client" as client
 participant "<<javaScript>>\n:server" as server
 participant "<<router>>\n:massage-shops" as routerMassageShop
+participant "<<middleware>>\n:auth" as middleware
+participant "<<service>>\n:jwt" as service
 participant "<<controllers>>\n:createMassageShop" as controllersCreateMassageShop
+participant "<<model>>\n:User" as modelUser
 participant "<<model>>\n:MassageShop" as modelMassageShop
+database "<<MongoDB>>\n:users" as UsersDatabase
 database "<<MongoDB>>\n:massageShop" as MassageShopDatabase
 
 client->server ++:req.post('/massage-shops')
 server->routerMassageShop ++:app.use('/massage-shops', massageShops)
+routerMassageShop -> middleware ++:protect()
+middleware -> service ++:verify(token, secret)
+middleware <-- service ++:decoded
+middleware -> modelUser ++:findById(decoded id)
+modelUser -> UsersDatabase ++:findById({_id:decoded id})
+modelUser <-- UsersDatabase ++:user
+middleware <-- modelUser ++:user
+routerMassageShop <-- middleware ++:user
+routerMassageShop -> middleware ++:authorize('admin')
+middleware -> middleware ++:includes(req.user.role)
+routerMassageShop <-- middleware ++:next()
 alt case User is user role
-server<--routerMassageShop: Unauthorize Response
-client <-- server: Unauthorize Response
+client<--routerMassageShop: Unauthorize Response
+' client <-- server: Unauthorize Response
 else case User is admin role
 routerMassageShop -> controllersCreateMassageShop ++:createMassageShop()
 controllersCreateMassageShop->modelMassageShop ++:createMassageShop(req.body)
 modelMassageShop ->MassageShopDatabase ++: MassageShopSchema
 MassageShopDatabase --> modelMassageShop --: massageShop
 controllersCreateMassageShop <-- modelMassageShop --:massageShop
-routerMassageShop <-- controllersCreateMassageShop --:response
-server <-- routerMassageShop --:response
-client <-- server --:response
+client <-- controllersCreateMassageShop --:response
+' server <-- routerMassageShop --:response
+' client <-- server --:response
 end
 
 @enduml
